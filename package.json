@@ -1,0 +1,16 @@
+{
+  "name": "habit_tracker",
+  "version": "1.0.0",
+  "description": "Habit Tracker on Ejs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Yasir Khan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "i": "^0.3.7",
+    "nodemon": "^3.0.1"
+  }
+}
