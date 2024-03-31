@@ -1,3 +1,126 @@
 <link rel="stylesheet" href="/css/home.css" />
-<div>Home</div>
+<div class="d-flex justify-content-center">
+  <div class="px-4 mt-4 min-w-76">
+    <h4>Weekly and Today Habits Progress:</h4>
+    <table class="table table-bordered mt-5 mb-1">
+      <%if(habit_list.length>0){%>
+      <thead>
+        <tr>
+          <th class="bg-success text-white">Sr</th>
+          <th class="bg-success text-white">Habit</th>
+          <th class="bg-success text-white">Today</th>
+          <th class="bg-success text-white">Action</th>
+          <th class="bg-success text-white">Favorite</th>
+          <th class="bg-success text-white">Show weekly</th>
+        </tr>
+      </thead>
+      <%}%>
+      <tbody>
+        <%var i=1%> <%if(habit_list.length>0){%> <% for(let details of
+        habit_list){%>
+
+        <tr>
+          <td><%=i%></td>
+          <td>
+            <h4><%=details.habit%></h4>
+            <small><%=details.description%></small>
+          </td>
+          <td class="text-center" style="cursor: pointer">
+            <%let currentDate = new Date(); let dd = currentDate.getDate(); let
+            mm = currentDate.getMonth() + 1; const yyyy =
+            currentDate.getFullYear(); if (dd < 10) dd = '0' + dd; if (mm < 10)
+            mm = '0' + mm; let today = dd + '/' + mm + '/' + yyyy; let found;
+            let status; details.dates.find((item) => { if(item.date === today) {
+            found = true; status = item.complete; } }); %>
+            <a
+              href="/status-update/?id=<%= details._id %>&date=<%= today %>"
+              class="status"
+              ><% if(found && status==='yes'){ %>
+              <i class="fa fa-duotone fa-check fs-1 text-success"></i>
+              <% } else if(found && status==='no'){ %>
+              <i class="fas fa-regular fa-xmark fs-1 text-danger"></i>
+              <% } else { %>
+              <i class="fa fa fa-minus fs-1 text-warning"></i>
+              <% } %>
+            </a>
+          </td>
+          <td class="text-center">
+            <a href="/delete-habit/?id=<%=details._id%>" class="remove">
+              <i class="fa-solid fa-trash text-danger"></i>
+            </a>
+          </td>
+          <td class="text-center">
+            <a href="/favorite-habit/?id=<%= details._id %>" class="remove">
+              <% if(details.favorite) { %>
+              <i class="fa-solid fa-star"></i>
+              <% } else { %>
+              <i class="fa-regular fa-star"></i>
+              <% } %>
+            </a>
+          </td>
+          <td class="d-flex justify-content-center align-items-center">
+            <button
+              class="btn btn-sm btn-outline-info"
+              onclick="showHideWeeek('<%= details._id %>')"
+              id="btn-<%= details._id %>"
+            >
+              show
+            </button>
+          </td>
+        </tr>
+        <div class="weekly__container">
+          <div id="showhide-<%= details._id %>" style="display: none">
+            <div class="d-flex flex-wrap justify-content-center">
+              <div class="weekly__date border text-center">
+                <p
+                  class="bg-success text-white px-2"
+                  style="font-size: 0.788rem"
+                >
+                  Sr
+                </p>
+                <div><%=i%></div>
+              </div>
+              <%for(let d of weeklyDate){%>
+              <div class="weekly__date border text-center">
+                <p
+                  class="bg-success text-white px-2"
+                  style="font-size: 0.788rem"
+                >
+                  <%= d %>
+                </p>
+                <% let find; let stat; details.dates.find((item) => {
+                if(item.date === d) { find = true; stat = item.complete; } });
+                %>
+                <a
+                  href="/status-update/?id=<%= details._id %>&date=<%= d %>"
+                  class="status"
+                  ><% if(find && stat==='yes'){ %>
+                  <i class="fa fa-duotone fa-check fs-1 text-success"></i>
+                  <% } else if(find && stat==='no'){ %>
+                  <i class="fas fa-regular fa-xmark fs-1 text-danger"></i>
+                  <% } else { %>
+                  <i class="fa fa fa-minus fs-1 text-warning"></i>
+                  <% } %>
+                </a>
+              </div>
+              <%}%>
+            </div>
+          </div>
+        </div>
+        <%i++%> <%}%> <%}else{%>
+        <div
+          class="fs-1 d-flex justify-content-center align-content-center"
+          style="background: #eee"
+        >
+          No data
+        </div>
+        <%}%>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%if(habit_list){%> <% for(let details of habit_list){%> <%}%> <%}%>
+
 <script type="text/javascript" src="/js/home.js"></script>
+<!-- Button trigger modal -->

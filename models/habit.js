@@ -1,63 +1,41 @@
 const mongoose = require("mongoose");
 
-const habitSchema = new mongoose.Schema({
-  habit: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  end: {
-    type: String,
-  },
-  frequency: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: String,
-  },
-  time: {
-    type: String,
-    required: true,
-  },
-  streak: {
-    type: Number,
-    default: 0,
-  },
-  days: {
-    one: {
+const habitSchema = new mongoose.Schema(
+  {
+    habit: {
       type: String,
-      default: null,
+      required: true,
     },
-    two: {
+    description: {
       type: String,
-      default: null,
+      required: true,
     },
-    three: {
+    end: {
       type: String,
-      default: null,
     },
-    four: {
+    frequency: {
       type: String,
-      default: null,
+      required: true,
     },
-    five: {
+    dates: [
+      {
+        date: String,
+        complete: String,
+      },
+    ],
+    time: {
       type: String,
-      default: null,
+      required: true,
     },
-    six: {
-      type: String,
-      default: null,
-    },
-    seven: {
-      type: String,
-      default: null,
+    favorite: {
+      type: Boolean,
+      default: false,
     },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 const Habit = mongoose.model("Habit", habitSchema);
 
 module.exports = Habit;
